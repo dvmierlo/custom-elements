@@ -11,6 +11,9 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 
 	<flow name="custom-elementsFlow">
 		<http:listener config-ref="HTTP_Listener_Configuration" path="/component" doc:name="HTTP" />
+        <custom-filter class="com.mulesoft.training.MuleFilter" doc:name="Custom Java Filter">
+            <spring:property name="urlParamType" value="Map"/>
+        </custom-filter>
 		<choice doc:name="Choice">
 			<when expression="#[message.inboundProperties.'http.query.params'.type == 'map']">
 				<set-payload value="#[{'message' : 'i am a map'}]" doc:name="Set Payload"/>
@@ -33,7 +36,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 
 	<flow name="componentExample">
 		<!-- Component scope: Prototype -->
-        <component class="com.mulesoft.training.MuleComponent" doc:name="Java"/>
+        <component class="com.mulesoft.training.MuleComponent" doc:name="Custom Java Component"/>
         
 		<!-- Component scope: Singleton -->
         <!--
